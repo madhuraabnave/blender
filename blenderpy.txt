@@ -1,0 +1,314 @@
+assignment1 
+
+def multiply(a, b):
+    # Convert input strings to integers
+    a = int(a)
+    b = int(b)
+
+    # Base case
+    if a < 10 or b < 10:
+        return a * b
+
+
+    a_str = str(a)
+    b_str = str(b)
+    n = max(len(a_str), len(b_str))
+
+    # Calculate the split point for a and b
+    m = n // 2
+
+    # Split a and b into two parts
+    a_high, a_low = divmod(a, 10**m)
+    b_high, b_low = divmod(b, 10**m)
+
+    
+    A = multiply(a_high, b_high)
+    B = multiply(a_low, b_low)
+    C = multiply(a_high + a_low, b_high + b_low) - A - B
+
+    
+    result = A * 10*(2 * m) + C * 10*m + B
+
+    return result
+
+num = input("Enter a number to take square: ")
+ans = multiply(num,num)
+print(int(num)**2)
+
+
+assignment 2 
+job schedule
+import java.util.*;
+class job {
+char job_id;
+int job_deadline; 
+int job_profit;
+public job() {}
+public job(char jid, int jdeadline, int jprofit)
+{this.job_id = jid;
+this.job_deadline = jdeadline;
+this.job_profit = jprofit;}
+void makeschedul(ArrayList<job> jobarr, int timeline)
+{int lenth = jobarr.size();
+// Sort in  decreasing order of profit
+Collections.sort(jobarr, (a, b) -> b.job_profit - a.job_profit);
+boolean result[] = new boolean[timeline];
+char job[] = new char[timeline];
+// Iterate through all given jobs
+for (int i = 0; i < lenth; i++) {
+// Find a free slot 
+for (int j= Math.min(timeline - 1, jobarr.get(i).job_deadline - 1);j >= 0; j--) {
+// Free slot found
+if (result[j] == false) {result[j] = true;job[j] = jobarr.get(i).job_id;
+break;}}}
+for (char jb : job)
+System.out.print(jb + " ");
+System.out.println();}
+public static void main(String args[])
+{Scanner sc = new Scanner(System.in);
+
+ArrayList<job> dyanamicarray = new ArrayList<job>();
+
+for(int i = 0; i < 5; i++)
+{System.out.println("Enter ID for " + (i+1) + " job");
+char id = sc.next().charAt(0);
+System.out.println("Enter deadline for " + (i+1) + " job");
+ int deadline = sc.nextInt();
+System.out.println("Enter profit for " + (i+1) + " job");
+int profit = sc.nextInt();
+dyanamicarray.add(new job(id, deadline, profit));}
+System.out.println("Sequence of jobs to get maximum profit");
+// Creating Instance of job
+job JOBS = new job();	
+JOBS.makeschedul(dyanamicarray, 3);
+}}
+
+assignment 3
+Floyd warshall
+Assignment 3
+
+# Floyd-Warshel algorithm
+def floyd_warshel(graph):
+    # initialize the matrix
+    dist = graph
+
+    for i in range(len(graph)):
+        for j in range(len(graph)):
+            if graph[i][j] == 0 and i != j:
+                dist[i][j] = float('inf')
+
+    # find the shortest path
+    for k in range(len(graph)):
+        for i in range(len(graph)):
+            for j in range(len(graph)):
+                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+
+    return dist
+
+graph = [
+            [0, 3, 0, 7],   
+            [8, 0, 2, 0],
+            [5, 0, 0, 1],
+            [2, 0, 0, 0],
+        ]
+
+print(floyd_warshel(graph))
+
+assignment 4 
+Dijkstras
+
+def minimum_index(arr,visited):
+    ind = -1
+    for i in range(len(arr)):
+        if (arr[i] < arr[ind] or ind==-1) and visited[i] == False:
+            ind = i
+    return ind
+
+
+def dijkstra(graph,src):
+    
+    n = len(graph)    
+    ans = [float('inf')]*n
+    visited = [False]*n
+    ans[src] = 0
+    
+        
+    for count in range(n):
+        
+        i = minimum_index(ans,visited)
+        visited[i] = True
+        
+        
+        for j in range(n):
+            if graph[i][j] != 0 and visited[j] == False:
+                temp = ans[i] + graph[i][j]
+                ans[j] =  temp if ans[j] > temp else ans[j]
+        
+    return ans
+    
+    
+# Drivers Code
+
+graph = [
+            [0, 4, 0, 0, 0, 0, 0, 8, 0],
+            [4, 0, 8, 0, 0, 0, 0, 11, 0],
+            [0, 8, 0, 7, 0, 4, 0, 0, 2],
+            [0, 0, 7, 0, 9, 14, 0, 0, 0],
+            [0, 0, 0, 9, 0, 10, 0, 0, 0],
+            [0, 0, 4, 14, 10, 0, 2, 0, 0],
+            [0, 0, 0, 0, 0, 2, 0, 1, 6],
+            [8, 11, 0, 0, 0, 0, 1, 0, 7],
+            [0, 0, 2, 0, 0, 0, 6, 7, 0]
+        ]
+            
+ans = dijkstra(graph,0)
+print(ans)
+
+assignment 5
+knight tour 
+public class KnightsTour {
+    static int N;
+    
+    public static boolean isSafe(int x, int y, int[][] sol) {
+        return (x >= 0 && y >= 0 && x < N && y < N && sol[x][y] == -1);
+    }
+    
+    public static void printSolution(int[][] sol) {
+        int cnt=0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+              System.out.print(sol[i][j] + "\t");
+             cnt++;
+            }
+            
+        }
+        System.out.println(cnt);
+    }
+
+
+    public static boolean solveKnightTour(int N) {
+        int[][] sol = new int[N][N];
+        
+        // Initialize the solution matrix
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                sol[i][j] = -1;
+            }
+        }
+        
+        int[] xMove = {2, 1,-1, -2, -2, -1, 1, 2};
+        int[] yMove = {1, 2, 2, 1, -1, -2, -2, -1};
+        
+        // Knight starts from the top-left corner
+        sol[0][0] = 0;
+        
+        if (solveKTUtil(0, 0, 1, sol, xMove, yMove)) {
+            printSolution(sol);
+            return true;
+        } else {
+            System.out.println("Solution does not exist.");
+            return false;
+        }
+    }
+    
+    public static boolean solveKTUtil(int x, int y, int movei, int[][] sol, int[] xMove, int[] yMove) {
+        if (movei == N * N) {
+            return true;
+        }
+        
+        for (int k = 0; k < 8; k++) {
+            int nextX = x + xMove[k];
+            int nextY = y + yMove[k];
+            
+            if (isSafe(nextX, nextY, sol)) {
+                sol[nextX][nextY] = movei;
+                if (solveKTUtil(nextX, nextY, movei + 1, sol, xMove, yMove)) {
+                    return true;
+                } else {
+                    // Backtrack
+                    sol[nextX][nextY] = -1;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public static void main(String[] args) {
+        N = 8; // Change N to set the size of the chessboard (N x N)
+        solveKnightTour(N);
+    }
+}
+assignment 6 
+assignment problem
+import java.util.Arrays;
+
+public class Main {
+    private int N;
+    private int[][] costMatrix;
+    private int[] assignedStudents;
+    private int[] assignedClubs;
+    private int minCost;
+
+    public Main(int[][] costMatrix) {
+        this.N = costMatrix.length;
+        this.costMatrix = costMatrix;
+        this.assignedStudents = new int[N];
+        this.assignedClubs = new int[N];
+        Arrays.fill(assignedStudents, -1);
+        Arrays.fill(assignedClubs, -1);
+        this.minCost = Integer.MAX_VALUE;
+    }
+
+    public int solve() {
+        backtrack(0);
+        return minCost;
+    }
+
+    private boolean isFeasible(int student, int club) {
+        return assignedStudents[student] == -1 && assignedClubs[club] == -1;
+    }
+
+    private int bound(int[] assignedStudents, int[] assignedClubs) {
+        int totalCost = 0;
+        for (int student = 0; student < N; student++) {
+            if (assignedStudents[student] != -1) {
+                totalCost += costMatrix[student][assignedStudents[student]];
+            }
+        }
+        return totalCost;
+    }
+
+    private void backtrack(int student) {
+        if (student == N) {
+            int currentCost = bound(assignedStudents, assignedClubs);
+            if (currentCost < minCost) {
+                minCost = currentCost;
+            }
+            return;
+        }
+
+        for (int club = 0; club < N; club++) {
+            if (isFeasible(student, club)) {
+                assignedStudents[student] = club;
+                assignedClubs[club] = student;
+                backtrack(student + 1);
+                assignedStudents[student] = -1;
+                assignedClubs[club] = -1;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int N = 4;
+        int[][] costMatrix = {
+                {9, 2, 7, 8},
+                {6, 4, 3, 7},
+                {5, 8, 1, 8},
+                {7, 6, 9, 4}
+        };
+
+        Main problem = new Main(costMatrix);
+        int minCost = problem.solve();
+        System.out.println("Minimum Cost: " + minCost);
+    }
+}
